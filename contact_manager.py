@@ -22,9 +22,9 @@ class ContactManager:
         try: #follows this
             with open(self.file, "r") as new:
                 self.contacts = json.load(new)
-        except: (FileNotFoundError, json.JSONDecodeError): #if it doesn't work and gives errors listed
+        except (FileNotFoundError, json.JSONDecodeError): #if it doesn't work and gives errors listed
                 self.contacts = [] #set an empty list, just in case its corrupt or pulled and saved from previous "try"
-                Print (f"File {self.file} is corrupt or doesn't exist.")
+                print (f"File {self.file} is corrupt or doesn't exist.")
             return self.contacts
 
 
@@ -39,15 +39,15 @@ class ContactManager:
         """
 
 
-    def add_contact(self, ):
+    def add_contact(self, contact):
         self.contacts.append(contact)
         with open(self.file, "w") as new:
             json.dump(self.contacts, new, indent =4) #makes it look neat like pokemon api
 
 
     def update_contact(self, contact_to_update):
-        for contact in self.contacts:
-            if contact["id"] == contact_to_update["id"]:
+        for i in range(len(self.contacts)):
+            if self.contacts[i]["id"] == contact_to_update["id"]:
             self.contacts[i] = contact_to_update
             with open(self.file, "w") as new:
                 json.dump(self.contacts, new, indent= 4)
@@ -59,7 +59,7 @@ class ContactManager:
         for contact in self.contacts:
             if contact["id"] == id_to_delete:
                 self.contacts.remove(contact)
-                with open(self.files, "w") as new:
+                with open(self.file, "w") as new:
                     json.dump(self.contacts, new, indent=4)
                 return
             print(f"No contact with ID {id_to_delete}.")
